@@ -10,7 +10,7 @@
 
 ## Features
 
-- **Custom Animations:** Optimized the CustomAnimation.LateUpdate() function, significantly improving the performance of levels with lots of decorations and/or custom character animations. When tested with [Play With Fire](https://codex.rhythm.cafe/play-wit-hqHVhSHwfyH.rdzip), the call counts per second of the function increased by 1615% and the level now runs at a consistent 60 fps.
+- **Custom Animations:** Optimized the CustomAnimation.LateUpdate() function, significantly improving the performance of levels with lots of decorations and/or custom character animations. When tested with [Play With Fire](https://codex.rhythm.cafe/play-wit-hqHVhSHwfyH.rdzip), the call counts per second of the function [increased by 1615%](https://i.imgur.com/uVos6KK.png) and the level now runs at a consistent 60 fps.
 
 ## TODO
 - Optimize editor loading and scrubbing performance
