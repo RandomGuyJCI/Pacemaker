@@ -1,3 +1,4 @@
+[![GitHub all releases](https://img.shields.io/github/downloads/RandomGuyJCI/Pacemaker/total)](https://github.com/RandomGuyJCI/Pacemaker/releases/latest)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/RandomGuyJCI/RDGameplayPatches/issues)
 [![Discord](https://img.shields.io/discord/296802696243970049?color=%235865F2&label=discord&logo=Discord&logoColor=%23ffffff)](https://discord.gg/rhythmdr)
 
@@ -11,9 +12,10 @@
 ## Features
 
 - **Custom Animations:** Optimized the CustomAnimation.LateUpdate() function, significantly improving the performance of levels with lots of decorations and/or custom character animations. When tested with [Play With Fire](https://codex.rhythm.cafe/play-wit-hqHVhSHwfyH.rdzip), the call counts per second of the function [increased by 1615%](https://i.imgur.com/uVos6KK.png) and the level now runs at a consistent 60 fps.
+- **Bloom:** Fixed a [memory leak](https://cdn.discordapp.com/attachments/751852834320023593/1004421730107924510/unknown.png) caused by a temporary render texture not being properly released. Levels that extensively use bloom should no longer crash the game after running for a long period of time.
 
 ## TODO
-- Optimize editor loading and scrubbing performance
+- [ ] Optimize editor loading and scrubbing performance
 
 ## Installation
 1. Download the latest version of **BepInEx 5 x86** [here](https://github.com/BepInEx/BepInEx/releases/latest). \
