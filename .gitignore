@@ -1,0 +1,9 @@
+# Non-source code files
+Pacemaker/libs
+Pacemaker/bin
+Pacemaker/obj
+
+# IDE-specific files and folders
+.vs/
+.idea/
+Pacemaker.sln.DotSettings.user
