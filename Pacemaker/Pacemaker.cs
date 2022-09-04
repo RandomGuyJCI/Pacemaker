@@ -9,7 +9,7 @@ namespace Pacemaker
     {
         private const string modGUID = "com.rhythmdr.pacemaker";
         private const string modName = "Pacemaker";
-        private const string modVersion = "1.1.1";
+        private const string modVersion = "1.2.0";
         private readonly Harmony harmony = new("com.rhythmdr.pacemaker");
         
         private void Awake()

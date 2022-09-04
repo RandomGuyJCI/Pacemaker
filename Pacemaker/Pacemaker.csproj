@@ -69,6 +69,7 @@
         <Compile Include="Pacemaker.cs" />
         <Compile Include="Patches\BloomMemoryLeakFix.cs" />
         <Compile Include="Patches\CustomAnimationPatch.cs" />
+        <Compile Include="Patches\EditorFullscreenPatch.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
