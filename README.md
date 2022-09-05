@@ -14,6 +14,8 @@
 - **Custom Animations:** Optimized the CustomAnimation.LateUpdate() function, significantly improving the performance of levels with lots of decorations and/or custom character animations. When tested with [Play With Fire](https://codex.rhythm.cafe/play-wit-hqHVhSHwfyH.rdzip), the call counts per second of the function [increased by 1615%](https://i.imgur.com/uVos6KK.png) and the level now runs at a consistent 60 fps.
 - **Bloom:** Fixed a [memory leak](https://cdn.discordapp.com/attachments/751852834320023593/1004421730107924510/unknown.png) caused by a temporary render texture not being properly released. Levels that extensively use bloom should no longer crash the game after running for a long period of time.
 - **Editor Fullscreen:** Disabled most of the unnecessary editor behavior when the level is in fullscreen, returning the frame rate to near-CLS levels. On a moving timeline with the decorations tab enabled, fullscreen performance in Play With Fire jumped from 9 fps to 40-60 fps.
+- **Timeline Resizing:** Resizing the timeline by pressing the top-left arrow no longer freezes the editor, eliminating up to 3 seconds of lag per press on heavy levels.
+- **Level Event Culling:** The editor has a built-in function that automatically culls level events that are out of timeline view. However, this is only limited to the VFX tab and is slightly rudimentary. This function has been modified to cull *all* level events in all tabs and to cull more aggresively, leading to an almost doubled frame rate when scrolling through a busy decorations timeline.
 
 ## TODO
 - [ ] Optimize editor loading and scrubbing performance
