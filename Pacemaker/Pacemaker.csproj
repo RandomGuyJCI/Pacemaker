@@ -68,6 +68,7 @@
     <ItemGroup>
         <Compile Include="Pacemaker.cs" />
         <Compile Include="Patches\BloomMemoryLeakFix.cs" />
+        <Compile Include="Patches\SmarterLevelEventCulling.cs" />
         <Compile Include="Patches\CustomAnimationPatch.cs" />
         <Compile Include="Patches\EditorFullscreenPatch.cs" />
         <Compile Include="Patches\OptimizeTimelineResizing.cs" />
