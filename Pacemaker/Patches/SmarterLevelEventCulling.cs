@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
+﻿using HarmonyLib;
 using RDLevelEditor;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Pacemaker.Patches
@@ -23,7 +23,7 @@ namespace Pacemaker.Patches
             float scrollViewLeftPos = -__instance.scrollviewContent.anchoredPosition.x;
             float scrollViewRightPos = scrollViewLeftPos + __instance.scrollview.rect.width;
             float scrollViewBottomPos = __instance.scrollViewVertContent.anchoredPosition.y;
-            float scrollViewTopPos =  scrollViewBottomPos + __instance.scrollViewVert.rect.height;
+            float scrollViewTopPos = scrollViewBottomPos + __instance.scrollViewVert.rect.height;
 
             foreach (RectTransform cachedBarNumber in __instance.cachedBarNumbers)
             {
@@ -81,14 +81,16 @@ namespace Pacemaker.Patches
                 float topPos = scrollViewTopPos + anchoredPosition.y;
                 float bottomPos = scrollViewTopPos + levelEventControl_Base.bottomPosition;
 
-                if (levelEvent is LevelEvent_AddOneshotBeat addOneshotEvent) 
-                    rightPos += addOneshotEvent.skipshot ? levelEventControl_Base.rt.sizeDelta.x : 0;
-
-                bool flag = rightPos + 5 >= scrollViewLeftPos && 
-                            leftPos - 5 <= scrollViewRightPos && 
-                            topPos + 5 >= scrollViewBottomPos && 
-                            bottomPos - 5 <= scrollViewTopPos && 
-                            levelEventControl_Base.visible    && 
+                if (levelEvent is LevelEvent_AddOneshotBeat addOneshotEvent)
+                    rightPos += addOneshotEvent.skipshot ? ((LevelEventControl_AddClassicBeat) levelEventControl_Base).skipshotBorder.rectTransform.sizeDelta.x : 0;
+                else if (levelEvent is LevelEvent_AddClassicBeat addClassicEvent)
+                    rightPos += addClassicEvent.hold > 0 ? ((LevelEventControl_AddClassicBeat) levelEventControl_Base).heldbeatBorder.rectTransform.sizeDelta.x : 0;
+                
+                bool flag = rightPos + 5 >= scrollViewLeftPos &&
+                            leftPos - 5 <= scrollViewRightPos &&
+                            topPos + 5 >= scrollViewBottomPos &&
+                            bottomPos - 5 <= scrollViewTopPos &&
+                            levelEventControl_Base.visible    &&
                             __instance.editor.ActionTypeIsVisible(levelEvent.type);
                 
                 GameObject go = levelEventControl_Base.go;
