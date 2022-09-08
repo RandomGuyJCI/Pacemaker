@@ -93,14 +93,17 @@ namespace Pacemaker.Patches
             }
 
             if (__instance.clipFrame >= __instance.currentClip.frames.Length) return false;
-
+            
+            var newInstanceFields = customAnimationFields.GetOrCreateValue(__instance);
+            
             if (__instance.renderMode == CustomAnimation.RenderMode.MeshRenderer)
             {
                 var mesh = __instance.filter.mesh;
-                if (__instance.pivotX != customAnimationFields.GetOrCreateValue(__instance).lastPivotX || __instance.pivotY != customAnimationFields.GetOrCreateValue(__instance).lastPivotY)
+
+                if (__instance.pivotX != newInstanceFields.lastPivotX || __instance.pivotY != newInstanceFields.lastPivotY)
                 {
-                    customAnimationFields.GetOrCreateValue(__instance).lastPivotX = __instance.pivotX;
-                    customAnimationFields.GetOrCreateValue(__instance).lastPivotY = __instance.pivotY;
+                    newInstanceFields.lastPivotX = __instance.pivotX;
+                    newInstanceFields.lastPivotY = __instance.pivotY;
                     
                     var vector = new Vector3(__instance.pivotX, __instance.pivotY, 0f);
                     mesh.vertices = new[]
@@ -121,10 +124,10 @@ namespace Pacemaker.Patches
                     };
                 }
 
-                if (__instance.clipFrame != customAnimationFields.GetOrCreateValue(__instance).lastClipFrame || __instance.currentClip.name != customAnimationFields.GetOrCreateValue(__instance).lastClipName)
+                if (__instance.clipFrame != newInstanceFields.lastClipFrame || __instance.currentClip.name != newInstanceFields.lastClipName)
                 {
-                    customAnimationFields.GetOrCreateValue(__instance).lastClipFrame = __instance.clipFrame;
-                    customAnimationFields.GetOrCreateValue(__instance).lastClipName = __instance.currentClip.name;
+                    newInstanceFields.lastClipFrame = __instance.clipFrame;
+                    newInstanceFields.lastClipName = __instance.currentClip.name;
                     var sheetFrame = __instance.currentClip.frames[__instance.clipFrame];
                     var uVsForSheetFrame = __instance.data.GetUVsForSheetFrame(sheetFrame);
                     mesh.SetUVs(0, uVsForSheetFrame);
@@ -139,10 +142,10 @@ namespace Pacemaker.Patches
                 var num4 = __instance.currentClip.portraitOffset.y / (float)mainTexture.height;
                 var width = __instance.currentClip.portraitSize.x / (float)mainTexture.width;
                 var height = __instance.currentClip.portraitSize.y / (float)mainTexture.height;
-                if (__instance.clipFrame != customAnimationFields.GetOrCreateValue(__instance).lastClipFrame || __instance.currentClip.name != customAnimationFields.GetOrCreateValue(__instance).lastClipName)
+                if (__instance.clipFrame != newInstanceFields.lastClipFrame || __instance.currentClip.name != newInstanceFields.lastClipName)
                 {
-                    customAnimationFields.GetOrCreateValue(__instance).lastClipFrame = __instance.clipFrame;
-                    customAnimationFields.GetOrCreateValue(__instance).lastClipName = __instance.currentClip.name;
+                    newInstanceFields.lastClipFrame = __instance.clipFrame;
+                    newInstanceFields.lastClipName = __instance.currentClip.name;
                     var sheetFrame = __instance.currentClip.frames[__instance.clipFrame];
                     var uVsForSheetFrame = __instance.data.GetUVsForSheetFrame(sheetFrame);
                     __instance.rawImage.uvRect = new Rect(uVsForSheetFrame[0].x + num3, uVsForSheetFrame[0].y + num4, width, height);
