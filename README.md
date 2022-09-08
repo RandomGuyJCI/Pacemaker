@@ -19,6 +19,7 @@
 
 ## TODO
 - [ ] Optimize editor loading and scrubbing performance
+- [ ] Fix memory leak caused by the stutter vfx
 
 ## Installation
 1. Download the latest version of **BepInEx 5 x86** [here](https://github.com/BepInEx/BepInEx/releases/latest). \
