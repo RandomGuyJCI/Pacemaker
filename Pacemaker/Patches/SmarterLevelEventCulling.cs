@@ -20,10 +20,13 @@ namespace Pacemaker.Patches
         [HarmonyPatch(typeof(Timeline), "CullMaskedObjects")]
         public static bool Prefix(Timeline __instance)
         {
-            float scrollViewLeftPos = -__instance.scrollviewContent.anchoredPosition.x;
+            Vector2 scrollViewPos = __instance.scrollviewContent.anchoredPosition;
+            Vector2 scrollViewVert = __instance.scrollViewVertContent.anchoredPosition;
+
+            float scrollViewLeftPos = -scrollViewPos.x;
             float scrollViewRightPos = scrollViewLeftPos + __instance.scrollview.rect.width;
-            float scrollViewBottomPos = __instance.scrollViewVertContent.anchoredPosition.y;
-            float scrollViewTopPos = scrollViewBottomPos + __instance.scrollViewVert.rect.height;
+            float scrollViewTopPos = scrollViewVert.y;
+            float scrollViewBottomPos = scrollViewTopPos + __instance.scrollViewVert.rect.height;
 
             foreach (RectTransform cachedBarNumber in __instance.cachedBarNumbers)
             {
@@ -75,11 +78,14 @@ namespace Pacemaker.Patches
             {
                 LevelEvent_Base levelEvent = levelEventControl_Base.levelEvent;
 
-                Vector2 anchoredPosition = levelEventControl_Base.rt.anchoredPosition;
-                float leftPos = anchoredPosition.x;
-                float rightPos = levelEventControl_Base.rightPosition;
-                float topPos = scrollViewTopPos + anchoredPosition.y;
-                float bottomPos = scrollViewTopPos + levelEventControl_Base.bottomPosition;
+                RectTransform rt = levelEventControl_Base.rt;
+                Vector2 localPosition = rt.localPosition;
+                Vector2 sizeDelta = rt.sizeDelta;
+                
+                float leftPos = localPosition.x;
+                float rightPos = leftPos + sizeDelta.x;
+                float topPos = -localPosition.y;
+                float bottomPos = topPos + sizeDelta.y;
 
                 if (levelEvent is LevelEvent_AddOneshotBeat addOneshotEvent)
                     rightPos += addOneshotEvent.skipshot ? ((LevelEventControl_AddClassicBeat) levelEventControl_Base).skipshotBorder.rectTransform.sizeDelta.x : 0;
@@ -88,8 +94,8 @@ namespace Pacemaker.Patches
                 
                 bool flag = rightPos + 5 >= scrollViewLeftPos &&
                             leftPos - 5 <= scrollViewRightPos &&
-                            topPos + 5 >= scrollViewBottomPos &&
-                            bottomPos - 5 <= scrollViewTopPos &&
+                            topPos - 5 <= scrollViewBottomPos &&
+                            bottomPos + 5 >= scrollViewTopPos &&
                             levelEventControl_Base.visible    &&
                             __instance.editor.ActionTypeIsVisible(levelEvent.type);
                 
