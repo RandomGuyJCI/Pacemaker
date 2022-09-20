@@ -57,6 +57,34 @@ namespace Pacemaker.Patches
         [HarmonyPatch(typeof(CustomAnimation), "LateUpdate")]
         public static bool Prefix(CustomAnimation __instance)
         {
+            var newInstanceFields = customAnimationFields.GetOrCreateValue(__instance);
+            var mesh = __instance.filter.mesh;
+
+            if (__instance.renderMode == CustomAnimation.RenderMode.MeshRenderer && 
+                (__instance.pivotX != newInstanceFields.lastPivotX || __instance.pivotY != newInstanceFields.lastPivotY))
+            {
+                newInstanceFields.lastPivotX = __instance.pivotX;
+                newInstanceFields.lastPivotY = __instance.pivotY;
+                    
+                var vector = new Vector3(__instance.pivotX, __instance.pivotY, 0f);
+                mesh.vertices = new[]
+                {
+                    new Vector3(0f, 0f, 0f) - vector,
+                    new Vector3(1f, 0f, 0f) - vector,
+                    new Vector3(0f, 1f, 0f) - vector,
+                    new Vector3(1f, 1f, 0f) - vector
+                };
+                var indices = new[] { 0, 3, 1, 0, 2, 3 };
+                mesh.SetIndices(indices, MeshTopology.Triangles, 0);
+                mesh.colors = new[]
+                {
+                    Color.white,
+                    Color.white,
+                    Color.white,
+                    Color.white
+                };
+            }
+            
             if (__instance.renderMode == CustomAnimation.RenderMode.MeshRenderer && !__instance.renderer.enabled) return false;
             if (!__instance.data.mainTexture || __instance.data.mainTexture.width == 0 || __instance.data.mainTexture.height == 0) return false;
 
@@ -93,37 +121,9 @@ namespace Pacemaker.Patches
             }
 
             if (__instance.clipFrame >= __instance.currentClip.frames.Length) return false;
-            
-            var newInstanceFields = customAnimationFields.GetOrCreateValue(__instance);
-            
+
             if (__instance.renderMode == CustomAnimation.RenderMode.MeshRenderer)
             {
-                var mesh = __instance.filter.mesh;
-
-                if (__instance.pivotX != newInstanceFields.lastPivotX || __instance.pivotY != newInstanceFields.lastPivotY)
-                {
-                    newInstanceFields.lastPivotX = __instance.pivotX;
-                    newInstanceFields.lastPivotY = __instance.pivotY;
-                    
-                    var vector = new Vector3(__instance.pivotX, __instance.pivotY, 0f);
-                    mesh.vertices = new[]
-                    {
-                        new Vector3(0f, 0f, 0f) - vector,
-                        new Vector3(1f, 0f, 0f) - vector,
-                        new Vector3(0f, 1f, 0f) - vector,
-                        new Vector3(1f, 1f, 0f) - vector
-                    };
-                    var indices = new[] { 0, 3, 1, 0, 2, 3 };
-                    mesh.SetIndices(indices, MeshTopology.Triangles, 0);
-                    mesh.colors = new[]
-                    {
-                        Color.white,
-                        Color.white,
-                        Color.white,
-                        Color.white
-                    };
-                }
-
                 if (__instance.clipFrame != newInstanceFields.lastClipFrame || __instance.currentClip.name != newInstanceFields.lastClipName)
                 {
                     newInstanceFields.lastClipFrame = __instance.clipFrame;
